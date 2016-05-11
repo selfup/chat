@@ -12,6 +12,12 @@ $('#newData').on('click', (e) => {
   displayMessages()
 })
 
+$('#dropTable').on('click', (e) => {
+  let message = $('#messageField').val()
+  rb.send('dropTable', 'lol')
+  $('.dataFromDb').html('')
+})
+
 const displayMessages = () => {
   rb.send('getTable', 'lol')
 
