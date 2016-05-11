@@ -4,18 +4,25 @@ const socket = io.connect('http://idea.selfup.me:3000', {reconnect: true})
 
 const rb = socket
 
-rb.send('createTable', "lol")
+const createTheMainTable = () => {
+  rb.send('createTable', "lol")
+}
+
+createTheMainTable()
 
 $('#newData').on('click', (e) => {
-  let message = $('#messageField').val()
+  let message = `${$('#messageField').val()}`
+  if (message.includes("<script>")) {
+    message.replace("<script>", "'")
+    message.replace("</script>", "'")
+  }
   rb.send('newData', ['lol', {message: message}])
   displayMessages()
 })
 
 $('#dropTable').on('click', (e) => {
-  let message = $('#messageField').val()
-  rb.send('dropTable', 'lol')
-  $('.dataFromDb').html('')
+  rb.send('updateTable', ['lol', {message: "Chat Data Was Deleted"}])
+  displayMessages()
 })
 
 const displayMessages = () => {
