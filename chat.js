@@ -12,17 +12,9 @@ createTheMainTable()
 
 $('#messageField').bind("enterKey",function(e){
    let message = `${$('#messageField').val()}`
-    if (message.includes("<script")) {
-      message = "DO NOT TRY TO SCRIPT TAG ME"
-    } else if (message.includes("<embed")) {
-      message = "NO EMBEDS"
-    } else if (message.includes("<iframe")) {
-      message = "NO IFRAMES"
-    } else if (message.includes("<object")) {
-      message = "NO OBJECT TAGS"
-    } else if (message.includes("<img")) {
-      message = "NO IMAGES"
-    }
+    if (message.includes("<")) {
+      message = "NO TAGS"
+    } 
     rb.send('newData', ['lol', {message: message}])
     $('#messageField').val("")
     displayMessages()
