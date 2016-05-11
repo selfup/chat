@@ -12,7 +12,7 @@ createTheMainTable()
 
 $('#messageField').bind("enterKey",function(e){
    let message = `${$('#messageField').val()}`
-    if (message.includes("<script>")) {
+    if (message.includes("<script")) {
       message = "DO NOT TRY TO SCRIPT TAG ME"
     } else if (message.includes("<embed")) {
       message = "NO EMBEDS"
