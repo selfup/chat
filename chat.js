@@ -15,6 +15,9 @@ $('#messageField').bind("enterKey",function(e){
     if (message.includes("<script>")) {
       message = "DO NOT TRY TO SCRIPT TAG ME"
     }
+    if (message.includes("<embed")) {
+      message = "NO VIDS"
+    }
     rb.send('newData', ['lol', {message: message}])
     $('#messageField').val("")
     displayMessages()
