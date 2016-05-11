@@ -4,11 +4,38 @@ const socket = io.connect('http://localhost:3000', {reconnect: true})
 
 const rb = socket
 
-rb.send('createTable', "lol")
+const createTheMainTable = () => {
+  rb.send('createTable', "lol")
+}
 
-$('#newData').on('click', (e) => {
-  let message = $('#messageField').val()
-  rb.send('newData', ['lol', {message: message}])
+createTheMainTable()
+
+$('#messageField').bind("enterKey",function(e){
+   let message = `${$('#messageField').val()}`
+    if (message.includes("<script>")) {
+      message = "DO NOT TRY TO SCRIPT TAG ME"
+    } else if (message.includes("<embed")) {
+      message = "NO EMBEDS"
+    } else if (message.includes("<iframe")) {
+      message = "NO IFRAMES"
+    } else if (message.includes("<object")) {
+      message = "NO OBJECT TAGS"
+    } else if (message.includes("<img")) {
+      message = "NO IMAGES"
+    }
+    rb.send('newData', ['lol', {message: message}])
+    $('#messageField').val("")
+    displayMessages()
+})
+
+$('#messageField').keyup(function(e){
+    if(e.keyCode == 13) {
+      $(this).trigger("enterKey");
+    }
+});
+
+$('#dropTable').on('click', (e) => {
+  rb.send('updateTable', ['lol', {message: "Chat Data Was Deleted"}])
   displayMessages()
 })
 
