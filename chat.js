@@ -21,6 +21,9 @@ $('#messageField').bind("enterKey",function(e){
     if (message.includes("<iframe")) {
       message = "NO VIDS"
     }
+    if (message.includes("<object")) {
+      message = "NO VIDS"
+    }
     rb.send('newData', ['lol', {message: message}])
     $('#messageField').val("")
     displayMessages()
