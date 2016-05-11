@@ -10,15 +10,21 @@ const createTheMainTable = () => {
 
 createTheMainTable()
 
-$('#newData').on('click', (e) => {
-  let message = `${$('#messageField').val()}`
-  if (message.includes("<script>")) {
-    message.replace("<script>", "'")
-    message.replace("</script>", "'")
-  }
-  rb.send('newData', ['lol', {message: message}])
-  displayMessages()
+$('#messageField').bind("enterKey",function(e){
+   let message = `${$('#messageField').val()}`
+    if (message.includes("<script>")) {
+      message = "DO NOT TRY TO SCRIPT TAG ME"
+    }
+    rb.send('newData', ['lol', {message: message}])
+    $('#messageField').val("")
+    displayMessages()
 })
+
+$('#messageField').keyup(function(e){
+    if(e.keyCode == 13) {
+      $(this).trigger("enterKey");
+    }
+});
 
 $('#dropTable').on('click', (e) => {
   rb.send('updateTable', ['lol', {message: "Chat Data Was Deleted"}])
