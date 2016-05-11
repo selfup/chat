@@ -14,17 +14,13 @@ $('#messageField').bind("enterKey",function(e){
    let message = `${$('#messageField').val()}`
     if (message.includes("<script>")) {
       message = "DO NOT TRY TO SCRIPT TAG ME"
-    }
-    if (message.includes("<embed")) {
+    } else if (message.includes("<embed")) {
       message = "NO EMBEDS"
-    }
-    if (message.includes("<iframe")) {
+    } else if (message.includes("<iframe")) {
       message = "NO IFRAMES"
-    }
-    if (message.includes("<object")) {
+    } else if (message.includes("<object")) {
       message = "NO OBJECT TAGS"
-    }
-    if (message.includes("<img")) {
+    } else if (message.includes("<img")) {
       message = "NO IMAGES"
     }
     rb.send('newData', ['lol', {message: message}])
