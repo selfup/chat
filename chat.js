@@ -16,13 +16,16 @@ $('#messageField').bind("enterKey",function(e){
       message = "DO NOT TRY TO SCRIPT TAG ME"
     }
     if (message.includes("<embed")) {
-      message = "NO VIDS"
+      message = "NO EMBEDS"
     }
     if (message.includes("<iframe")) {
-      message = "NO VIDS"
+      message = "NO IFRAMES"
     }
     if (message.includes("<object")) {
-      message = "NO VIDS"
+      message = "NO OBJECT TAGS"
+    }
+    if (message.includes("<img")) {
+      message = "NO IMAGES"
     }
     rb.send('newData', ['lol', {message: message}])
     $('#messageField').val("")
