@@ -8,6 +8,14 @@ const createTheMainTable = () => {
   rb.send('createTable', "lol")
 }
 
+const getRoomId = () => {
+  let roomId = $('#roomIdField').val()
+  if (roomId === "") {
+    roomId = 'lol'
+  }
+  return roomId
+}
+
 createTheMainTable()
 
 $('#messageField').bind("enterKey",function(e){
@@ -15,11 +23,13 @@ $('#messageField').bind("enterKey",function(e){
    let message = `${$('#messageField').val()}`
     if (message.includes("<")) {
       message = "NO TAGS"
-    } 
+    }
     if (name.includes("<")) {
       name = "NO TAGS"
     }
-    rb.send('newData', ['lol', {message: message, name: name}])
+    let roomId = getRoomId()
+    rb.send('createTable', `${roomId}`)
+    rb.send('newData', [`${roomId}`, {message: message, name: name}])
     $('#messageField').val("") // clear message input field
     displayMessages()
 })
@@ -31,12 +41,12 @@ $('#messageField').keyup(function(e){
 });
 
 $('#dropTable').on('click', (e) => {
-  rb.send('updateTable', ['lol', {message: "Chat Data Was Deleted", name: "Chat Bot"}])
+  rb.send('updateTable', [`${getRoomId()}`, {message: "Chat Data Was Deleted", name: "Chat Bot"}])
   displayMessages()
 })
 
 const displayMessages = () => {
-  rb.send('getTable', 'lol')
+  rb.send('getTable', `${getRoomId()}`)
 
   socket.on("foundTable", message => {
     let nameAndMessage = turnObjectsIntoAList(message).join('')
