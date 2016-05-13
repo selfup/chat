@@ -19,25 +19,25 @@ const getRoomId = () => {
 createTheMainTable()
 
 $('#messageField').bind("enterKey",function(e){
-   let name = `${$('#nameField').val()}`
-   let message = `${$('#messageField').val()}`
-    if (message.includes("<")) {
-      message = "NO TAGS"
-    }
-    if (name.includes("<")) {
-      name = "NO TAGS"
-    }
-    let roomId = getRoomId()
-    rb.send('createTable', `${roomId}`)
-    rb.send('newData', [`${roomId}`, {message: message, name: name}])
-    $('#messageField').val("") // clear message input field
-    displayMessages()
+  let name = `${$('#nameField').val()}`
+  let message = `${$('#messageField').val()}`
+  if (message.includes("<")) {
+    message = "NO TAGS"
+  }
+  if (name.includes("<")) {
+    name = "NO TAGS"
+  }
+  let roomId = getRoomId()
+  rb.send('createTable', `${roomId}`)
+  rb.send('newData', [`${roomId}`, {message: message, name: name}])
+  $('#messageField').val("") // clear message input field
+  displayMessages()
 })
 
 $('#messageField').keyup(function(e){
-    if(e.keyCode == 13) {
-      $(this).trigger("enterKey");
-    }
+  if(e.keyCode == 13) {
+    $(this).trigger("enterKey");
+  }
 });
 
 $('#dropTable').on('click', (e) => {
@@ -49,8 +49,10 @@ const displayMessages = () => {
   rb.send('getTable', `${getRoomId()}`)
 
   socket.on("foundTable", message => {
-    let nameAndMessage = turnObjectsIntoAList(message).join('')
-    $('.dataFromDb').html(nameAndMessage)
+    if (message["0"].table === getRoomId()) {
+      let nameAndMessage = turnObjectsIntoAList(message).join('')
+      $('.dataFromDb').html(nameAndMessage)
+    }
   })
 }
 
@@ -58,7 +60,6 @@ const turnObjectsIntoAList = (message) => {
   let objects = []
   Object.getOwnPropertyNames(message).forEach(function(val, idx) {
     if (idx > 0) {
-      console.log(message[idx].name)
       objects.push(`<p>${message[idx].name}: ${message[idx].message}</p>`)
     }
   })
